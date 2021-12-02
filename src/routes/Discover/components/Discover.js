@@ -40,16 +40,21 @@ export default class Discover extends Component {
       const spotifySerice = new SpotifyService(accessToken);
 
       (async () => {
-        const categories = await spotifySerice.getCategories();
-        const newReleases = await spotifySerice.getNewReleases();
-        const playlists = await spotifySerice.getPlaylists();
+        try {
+          const categories = await spotifySerice.getCategories();
+          const newReleases = await spotifySerice.getNewReleases();
+          const playlists = await spotifySerice.getPlaylists();
 
-
-        this.setState({
-          categories,
-          newReleases,
-          playlists
-        });
+          if (categories && newReleases && playlists) {
+            this.setState({
+              categories,
+              newReleases,
+              playlists
+            });
+          }
+        } catch (err) {
+          console.error(err);
+        }
       })();
     }
   }
